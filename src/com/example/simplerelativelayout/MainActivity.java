@@ -1,6 +1,5 @@
 package com.example.simplerelativelayout;
 
-
 import android.R.integer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +15,8 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
 
 	private Spinner spinner1, spinner2;
-	//init day limit 
+	// init day limit
+	private int[] DAY_LIMIT = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +29,38 @@ public class MainActivity extends ActionBarActivity {
 
 		spinner1 = (Spinner) findViewById(R.id.spinner1);
 		spinner1.setAdapter(adapter);
-		//set OnItemSelectedListener
-		
+		spinner1.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				setDays(DAY_LIMIT[position]);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+
+		});
+		// set OnItemSelectedListener
+
 		spinner2 = (Spinner) findViewById(R.id.spinner2);
-		//comment setDay()
-		setDays(31);
+		// comment setDay()
+		//setDays(31);
 	}
-	
+
 	private void setDays(int limit) {
 		String[] days = new String[limit];
-		for (int i = 0 ; i < limit; i++) {
-			days[i] = String.valueOf(i+1);			
+		for (int i = 0; i < limit; i++) {
+			days[i] = String.valueOf(i + 1);
 		}
-		
+
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, days);
-			
+
 		spinner2.setAdapter(adapter);
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
